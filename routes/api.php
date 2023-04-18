@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GroupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -23,4 +24,8 @@ Route::middleware('auth:sanctum')->prefix('auth')->group(function () {
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'createUser']);
     Route::post('/login', [AuthController::class, 'loginUser']);
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/groups', [GroupController::class, 'getGroups']);
 });
