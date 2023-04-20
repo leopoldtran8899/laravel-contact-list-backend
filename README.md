@@ -62,6 +62,7 @@ ports:
 * Group: Group that a company belongs to. 
 * Note: Store notes maded by user on contacts.
 
+![](db/uml.png)
 ## About
 This is the backend for [Contact List application]().
 Contact List app is used to manage contact information for companies with view, filter and sort features. Also, user can add note to each contact record which is inaccessible to other users.
