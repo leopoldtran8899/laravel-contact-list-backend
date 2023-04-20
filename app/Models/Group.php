@@ -15,6 +15,9 @@ class Group extends Model
      * @var string
      */
     protected $table = 'groups';
+    /**
+     * Get all companies belong to this group
+     */
     public function companies(): HasMany{
         return $this->hasMany(Company::class, 'group_id', 'id');
     }

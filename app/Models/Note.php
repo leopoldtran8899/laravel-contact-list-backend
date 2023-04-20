@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Note extends Model
 {
@@ -14,4 +15,19 @@ class Note extends Model
      * @var string
      */
     protected $table = 'notes';
+
+    /**
+     * Get Note's creator
+     */
+    public function creator(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'creator_id');
+    }
+    /**
+     * Get Contact this note belongs to
+     */
+    public function contact(): HasOne
+    {
+        return $this->hasOne(Contact::class, 'id', 'contact_id');
+    }
 }

@@ -13,16 +13,23 @@ class Company extends Model
 {
     use HasFactory;
     protected $table = 'companies';
-
+    /**
+     * Get the group that this company belongs to
+     */
     public function group(): BelongsTo
     {
-        return $this->belongsTo(Group::class, 'id', 'group_id');
+        return $this->belongsTo(Group::class, 'group_id', 'id');
     }
-
-    public function contacts(): HasMany {
+    /**
+     * Get all contacts belong to this company
+     */
+    public function contacts(): HasMany
+    {
         return $this->hasMany(Contact::class, 'company_id', 'id');
     }
-
+    /**
+     * Get all users belong to this company
+     */
     public function users(): HasManyThrough
     {
         return $this->hasManyThrough(User::class, Contact::class, 'company_id', 'email', 'id', 'email');
