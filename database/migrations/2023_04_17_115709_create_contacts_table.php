@@ -26,8 +26,7 @@ return new class extends Migration
             $table->foreign('email')->references('email')->on('users');
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies');
-            $table->unsignedBigInteger('role_id');
-            $table->foreign('role_id')->references('id')->on('roles');
+            
             
         });
     }

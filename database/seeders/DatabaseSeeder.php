@@ -36,55 +36,52 @@ class DatabaseSeeder extends Seeder
             ->count(5)
             ->has(
                 Contact::factory()
-                    ->state(function (array $attributes, User $user) use ($roleManager, $companyIds) {
+                    ->state(function (array $attributes, User $user) use ($companyIds) {
                         return [
                             'email' => $user->email,
-                            'role_id' => $roleManager->id,
                             'company_id' => fake()->randomElement($companyIds)
                         ];
                     }),
                 'contact'
             )
-            ->create();
+            ->create(['role_id' => $roleManager->id]);
         $employeeUsers = User::factory()
             ->count(15)
             ->has(
                 Contact::factory()
-                    ->state(function (array $attributes, User $user) use ($roleEmployee, $managerUsers) {
+                    ->state(function (array $attributes, User $user) use ($managerUsers) {
                         $manager = fake()->randomElement($managerUsers);
                         return [
                             'email' => $user->email,
-                            'role_id' => $roleEmployee->id,
                             'company_id' => $manager->contact->company_id,
                             'supervisor_id' => $manager->id
                         ];
                     }),
                 'contact'
             )
-            ->create();
+            ->create(['role_id' => $roleEmployee->id]);
         User::factory()
             ->count(1)
             ->has(
                 Contact::factory()
-                    ->state(function (array $attributes, User $user) use ($roleManager, $companyIds) {
+                    ->state(function (array $attributes, User $user) use ($companyIds) {
                         return [
                             'email' => $user->email,
-                            'role_id' => $roleManager->id,
                             'company_id' => fake()->randomElement($companyIds)
                         ];
                     }),
                 'contact'
             )
-            ->create(['email' => 'admin1@mail.com']);
+            ->create(['email' => 'admin1@mail.com', 'role_id' => $roleManager->id]);
         $contactIds = Contact::all()->pluck('id')->toArray();
         $userIds = User::all()->pluck('id')->toArray();
-        for($i = 0; $i < 15; $i++) {
+        for ($i = 0; $i < 15; $i++) {
             Note::factory()->create([
                 'note' => fake()->sentence(),
                 'contact_id' => fake()->randomElement($contactIds),
                 'creator_id' => fake()->randomElement($userIds),
             ]);
         }
-        
+
     }
 }
