@@ -12,6 +12,17 @@ class Contact extends Model
 {
     use HasFactory;
     protected $table = 'contacts';
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'emergency_name',
+        'emergency_phone',
+        'phone',
+        'address',
+        'supervisor_id',
+        'company_id',
+        'email',
+    ];
     /**
      * Get User associated with this contact
      */

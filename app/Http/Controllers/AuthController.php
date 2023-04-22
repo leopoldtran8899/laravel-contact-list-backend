@@ -105,7 +105,9 @@ class AuthController extends Controller
     public function getUser(Request $request)
     {
         try {
-            return $request->user();
+            $user = $request->user();
+            $user->contact;
+            return $user;
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,

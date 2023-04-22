@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\NoteController;
 use Illuminate\Http\Request;
@@ -33,5 +34,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('groups', GroupController::class);
     Route::get('/companies/{id}/contacts', [CompanyController::class, 'getCompanyWithContacts']);
     Route::apiResource('companies', CompanyController::class);
+    Route::get('/notes-by-contact/{id}', [NoteController::class, 'getNotesByContactFromUser']);
+    Route::post('/note', [NoteController::class, 'createNoteForContact']);
     Route::apiResource('notes', NoteController::class);
+    Route::get('/contacts/{id}/notes', [ContactController::class, 'getContactWithNotes']);
+    Route::apiResource('contacts', ContactController::class)->only([
+        'show', 'index', 'update'
+    ]);
 });

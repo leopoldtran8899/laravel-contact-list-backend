@@ -105,5 +105,49 @@ class NoteController extends Controller
         return response()->json(['message' => 'Note deleted']);
     }
 
+    /**
+     * Get notes written by user for a contact
+     */
+    public function getNotesByContactFromUser(Request $request, $contactId) {
+        $user = null;
+        try {
+            $user = $request->user();
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Unauthorised'], 401);
+        }
+        $notes = Note::where('contact_id', $contactId)->where('creator_id', $user->id)->get();
+        return response()->json(['notes' => $notes]);
+    }
+    /**
+     * Create new note by user for a contact by id
+     */
+    public function createNoteForContact(Request $request) {
+        $user = null;
+        try {
+            $user = $request->user();
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Unauthorised'], 401);
+        }
+        try {
+            $this->validate($request, [
+                'note' => 'required',
+                'contact_id' => 'required|integer',
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+        try {
+            $note = Note::create([
+                'note' => $request->input('note'),
+                'creator_id' => $user->id,
+                'contact_id' => $request->input('contact_id')
+            ]);
+            $note->save();
+        } catch (QueryException $e) {
+            return response()->json(['error' => 'Cannot create'], 422);
+        }
+
+        return response()->json(['note' => $note], 201);
+    }
 
 }
