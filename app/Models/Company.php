@@ -13,6 +13,10 @@ class Company extends Model
 {
     use HasFactory;
     protected $table = 'companies';
+    protected $fillable = [
+        'name',
+        'group_id'
+    ];
     /**
      * Get the group that this company belongs to
      */

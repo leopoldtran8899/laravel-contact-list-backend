@@ -15,6 +15,9 @@ class Group extends Model
      * @var string
      */
     protected $table = 'groups';
+    protected $fillable = [
+        'name',
+    ];
     /**
      * Get all companies belong to this group
      */
