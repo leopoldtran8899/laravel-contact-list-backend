@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\NoteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -28,6 +29,9 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/groups/{id}/companies', [GroupController::class, 'getGroupWithCompanies']);
     Route::apiResource('groups', GroupController::class);
+    Route::get('/companies/{id}/contacts', [CompanyController::class, 'getCompanyWithContacts']);
     Route::apiResource('companies', CompanyController::class);
+    Route::apiResource('notes', NoteController::class);
 });

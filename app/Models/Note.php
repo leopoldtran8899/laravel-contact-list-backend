@@ -15,7 +15,11 @@ class Note extends Model
      * @var string
      */
     protected $table = 'notes';
-
+    protected $fillable = [
+        'note',
+        'creator_id',
+        'contact_id'
+    ];
     /**
      * Get Note's creator
      */

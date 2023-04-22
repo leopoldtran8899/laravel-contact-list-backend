@@ -35,28 +35,28 @@ class CompanyController extends Controller
         } catch (QueryException $e) {
             return response()->json(['error' => 'Cannot create'], 422);
         }
-        
+
         return response()->json(['company' => $company], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, String $id)
+    public function show(Request $request, string $id)
     {
         $company = Company::find($id);
-        
+
         if (!$company) {
             return response()->json(['message' => 'Company not found'], 404);
         }
-        
+
         return response()->json(['company' => $company]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, String $id)
+    public function update(Request $request, string $id)
     {
         try {
             $this->validate($request, [
@@ -66,9 +66,9 @@ class CompanyController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         }
-        
+
         $company = Company::find($id);
-        
+
         if (!$company) {
             return response()->json(['message' => 'Company not found'], 404);
         }
@@ -77,27 +77,41 @@ class CompanyController extends Controller
         } catch (QueryException $e) {
             return response()->json(['error' => 'Cannot update'], 422);
         }
-        
+
         return response()->json(['company' => $company]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(String $id)
+    public function destroy(string $id)
     {
         $company = Company::find($id);
-        
+
         if (!$company) {
             return response()->json(['message' => 'Company not found'], 404);
         }
-        
+
         try {
             $company->delete();
         } catch (QueryException $e) {
             return response()->json(['error' => 'Cannot delete'], 422);
         }
-        
+
         return response()->json(['message' => 'Company deleted']);
+    }
+
+    /**
+     * Get Company with its contacts
+     */
+    public function getCompanyWithContacts(string $id)
+    {
+        $company = Company::find($id);
+
+        if (!$company) {
+            return response()->json(['message' => 'Company not found'], 404);
+        }
+        $company->contacts;
+        return response()->json(['company' => $company]);
     }
 }

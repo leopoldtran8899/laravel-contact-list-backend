@@ -29,31 +29,31 @@ class GroupController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         }
-        
+
         $group = Group::create($request->only(['name']));
         $group->save();
-        
+
         return response()->json(['group' => $group], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, String $id)
+    public function show(Request $request, string $id)
     {
         $group = Group::find($id);
-        
+
         if (!$group) {
             return response()->json(['message' => 'Group not found'], 404);
         }
-        
+
         return response()->json(['group' => $group]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, String $id)
+    public function update(Request $request, string $id)
     {
         try {
             $this->validate($request, [
@@ -62,25 +62,25 @@ class GroupController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         }
-        
+
         $group = Group::find($id);
-        
+
         if (!$group) {
             return response()->json(['message' => 'Group not found'], 404);
         }
-        
+
         $group->update($request->only(['name']));
-        
+
         return response()->json(['group' => $group]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(String $id)
+    public function destroy(string $id)
     {
         $group = Group::find($id);
-        
+
         if (!$group) {
             return response()->json(['message' => 'Group not found'], 404);
         }
@@ -89,7 +89,20 @@ class GroupController extends Controller
         } catch (QueryException $e) {
             return response()->json(['error' => 'Cannot delete'], 422);
         }
-        
+
         return response()->json(['message' => 'Group deleted']);
+    }
+    /**
+     * Get group with its companies
+     */
+    public function getGroupWithCompanies(string $id)
+    {
+        $group = Group::find($id);
+
+        if (!$group) {
+            return response()->json(['message' => 'Group not found'], 404);
+        }
+        $group->companies;
+        return response()->json(['group' => $group]);
     }
 }
