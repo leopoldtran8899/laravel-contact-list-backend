@@ -119,11 +119,36 @@ class AuthController extends Controller
     /**
      * Logout user
      */
-    public function logoutUser(Request $request) {
+    public function logoutUser(Request $request)
+    {
         $request->user()->currentAccessToken()->delete();
         return response()->json([
             'status' => true,
             'message' => 'User Logged Out Successfully'
         ]);
     }
+
+    public function verify(Request $request)
+    {
+        try {
+            $user = $request->user();
+            if($user) {
+                return response()->json([
+                    'valid' => true,
+                    'message' => 'Access is valid'
+                ]);
+            } else {
+                return response()->json([
+                    'valid' => false,
+                    'message' => 'Access is invalid'
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'valid' => false,
+                'message' => 'Access is invalid'
+            ], 401);
+        }
+    }
+
 }

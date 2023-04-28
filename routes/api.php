@@ -22,6 +22,7 @@ use App\Http\Controllers\AuthController;
 Route::middleware('auth:sanctum')->prefix('auth')->group(function () {
     Route::get('/user', [AuthController::class, 'getUser']);
     Route::get('/logout', [AuthController::class, 'logoutUser']);
+    Route::get('/verify', [AuthController::class, 'verify']);
 });
 
 Route::prefix('auth')->group(function () {
