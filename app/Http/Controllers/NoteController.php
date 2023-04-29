@@ -15,7 +15,14 @@ class NoteController extends Controller
      */
     public function index()
     {
-        return response()->json(['notes' => Note::all()]);
+        $notes = Note::all();
+        foreach ($notes as $note) {
+            $creator = $note->creator;
+            if($creator) {
+                $note->creator->contact;
+            }
+        }
+        return response()->json(['notes' => $notes]);
     }
 
     /**
@@ -108,7 +115,8 @@ class NoteController extends Controller
     /**
      * Get notes written by user for a contact
      */
-    public function getNotesByContactFromUser(Request $request, $contactId) {
+    public function getNotesByContactFromUser(Request $request, $contactId)
+    {
         $user = null;
         try {
             $user = $request->user();
@@ -116,12 +124,19 @@ class NoteController extends Controller
             return response()->json(['error' => 'Unauthorised'], 401);
         }
         $notes = Note::where('contact_id', $contactId)->where('creator_id', $user->id)->get();
+        foreach($notes as $note) {
+            $creator = $note->creator;
+            if($creator) {
+                $note->creator->contact;
+            }
+        }
         return response()->json(['notes' => $notes]);
     }
     /**
      * Create new note by user for a contact by id
      */
-    public function createNoteForContact(Request $request) {
+    public function createNoteForContact(Request $request)
+    {
         $user = null;
         try {
             $user = $request->user();

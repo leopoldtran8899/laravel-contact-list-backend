@@ -45,4 +45,11 @@ class Contact extends Model
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
+    /**
+     * Get the contact's supervisor
+     */
+    public function supervisor(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'supervisor_id');
+    }
 }

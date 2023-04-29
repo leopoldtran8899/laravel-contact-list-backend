@@ -14,7 +14,15 @@ class ContactController extends Controller
      */
     public function index()
     {
-        return response()->json(['contacts' => Contact::all()]);
+        $contacts = Contact::all();
+        foreach($contacts as $contact) {
+            $contact->company;
+            $supervisor = $contact->supervisor;
+            if($supervisor) {
+                $contact->supervisor->contact;
+            }
+        }
+        return response()->json(['contacts' => $contacts]);
     }
 
     // TODO: only allow manager role to create/update/delete contact
@@ -54,7 +62,7 @@ class ContactController extends Controller
         if (!$contact) {
             return response()->json(['message' => 'Contact not found'], 404);
         }
-
+        $contact->company;
         return response()->json(['contact' => $contact]);
     }
 

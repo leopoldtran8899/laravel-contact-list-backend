@@ -14,7 +14,11 @@ class GroupController extends Controller
      */
     public function index()
     {
-        return response()->json(['groups' => Group::all()]);
+        $groups = Group::all();
+        foreach($groups as $group) {
+            $group->companies;
+        }
+        return response()->json(['groups' => $groups]);
     }
     // TODO: only allow manager role to create/update/delete group
     /**
